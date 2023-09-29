@@ -8,3 +8,5 @@ game.bank.establish_bank(settings)
 
 print(game.bank.ledger.ledger.head())
 print(game.bank.balance_sheet.balance_sheet)
+print(game.bank.cash_at_bank.deals)
+print(game.bank.capital.deals)

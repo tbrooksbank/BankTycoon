@@ -1,10 +1,10 @@
+import pandas as pd
+
 class cash_at_bank(object):
-    def __init__(self, deals=None):
+    def __init__(self, settings, deals=None):
         if deals is None:
-            game_settings = bank_tycoon.settings()
-            cab = {'Id': [1],
-                   'Counterparty': ['Bank of England'],
-                   'Principal': [game_settings.initial_investment],
+            cab = {'Counterparty': ['Bank of England'],
+                   'Principal': [settings.initial_investment],
                    'Accrued_Interest': [0],
                    'Interest_Index': ['Fixed'],
                    'Interest_Rate': [0.0400]}

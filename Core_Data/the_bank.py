@@ -1,5 +1,7 @@
 from Core_Data import ledger
 from Core_Data import balance_sheet
+from Detailed_Records import cash_at_bank
+from Detailed_Records import capital
 
 class bank(object):
     def __init__(self):
@@ -7,6 +9,8 @@ class bank(object):
         self.balance_sheet = balance_sheet.balance_sheet()
 
     def establish_bank(self, settings):
+        self.cash_at_bank = cash_at_bank.cash_at_bank(settings)
+        self.capital = capital.capital(settings)
         initial_investment = settings.initial_investment
         capital_premium_ratio = settings.capital_premium_ratio
         ledger_entries =    [
