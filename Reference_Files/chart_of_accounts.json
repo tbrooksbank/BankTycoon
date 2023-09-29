@@ -1,0 +1,18 @@
+[{
+"Sort_Order": 1,
+"Category": "Assets",
+"Class": "Cash and Balances at Bank",
+"Account": "Bank of England Reserve Account"
+},
+{
+"Sort_Order": 2,
+"Category": "Equity",
+"Class": "Share Capital",
+"Account": "Paid Up Share Capital"
+},
+{
+"Sort_Order": 3,
+"Category": "Equity",
+"Class": "Share Premium",
+"Account": "Share Premium"
+}]
