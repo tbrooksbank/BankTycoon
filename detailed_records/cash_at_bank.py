@@ -1,6 +1,7 @@
 import pandas as pd
 
-class cash_at_bank(object):
+
+class CashAtBank:
     def __init__(self, settings, deals=None):
         if deals is None:
             cab = {'Counterparty': ['Bank of England'],
@@ -20,7 +21,7 @@ class cash_at_bank(object):
 
     def time_step(self):
         for index, row in self.deals.iterrows():
-            self.accrued_interest_time_step(index,row)
+            self.accrued_interest_time_step(index, row)
 
     def bs_values(self):
         principal = self.deals['Principal'].sum()

@@ -1,7 +1,12 @@
-class settings(object):
+import datetime as dt
+
+
+class Settings:
     """Class to hold game settings"""
+
     def __init__(self, initial_investment=None, capital_premium_ratio=None,
-                 base_rate=None):
+                 base_rate=None
+                 ):
         if initial_investment is None:
             self.initial_investment = 50000000
         else:
@@ -17,4 +22,5 @@ class settings(object):
         self.days = 30
         self.months = 12
         self.year = 2020
-        self.days_in_year = self.days*self.months
+        self.date = dt.date(self.year, self.months, self.days)
+        self.days_in_year = self.days * self.months
