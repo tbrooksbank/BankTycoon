@@ -1,5 +1,15 @@
 # Bank Tycoon
 
+## Installation
+With a terminal in the directory of the project run the following commands.
+
+```cmd
+python -m venv venv
+call venv\Scripts\activate
+pip install -r requirements.txt
+python database/create.py
+```
+
 ## Game Idea
 Democracy 3 style text and gui based bank management game with realistic regulation
 
