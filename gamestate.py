@@ -1,4 +1,3 @@
-from settings import Settings
 from core_data import the_bank
 
 

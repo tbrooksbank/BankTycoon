@@ -1,4 +1,11 @@
+import logging
+
 import pandas as pd
+
+from utils.logging import log_config
+
+logger = logging.getLogger(__name__)
+logger = log_config(logger)
 
 
 class CashAtBank:
@@ -12,6 +19,8 @@ class CashAtBank:
             self.deals = pd.DataFrame(data=cab)
         else:
             self.deals = deals
+
+        logger.info(f"Cash at bank established with {len(self.deals)} deals.")
 
     def accrued_interest_time_step(self, index, row):
         accrued_interest = row['Accrued_Interest']
