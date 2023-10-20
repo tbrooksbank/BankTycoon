@@ -30,3 +30,5 @@ logger.info("Bank Established")
 
 testing_output.balance_sheet_summary()
 testing_output.ledger_summary()
+testing_output.cash_at_bank_summary()
+game.bank.cash_at_bank.time_step()

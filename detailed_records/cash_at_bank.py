@@ -1,6 +1,8 @@
 import logging
-
 import pandas as pd
+import sqlite3
+
+from database.create import DB_URL
 
 from utils.logging import log_config
 
@@ -8,32 +10,28 @@ logger = logging.getLogger(__name__)
 logger = log_config(logger)
 
 
-class CashAtBank:
-    def __init__(self, settings, deals=None):
-        if deals is None:
-            cab = {'Counterparty': ['Bank of England'],
-                   'Principal': [settings.initial_investment],
-                   'Accrued_Interest': [0],
-                   'Interest_Index': ['Fixed'],
-                   'Interest_Rate': [0.0400]}
-            self.deals = pd.DataFrame(data=cab)
-        else:
-            self.deals = deals
+class cash_at_bank:
+    def __init__(self):
+        pass
 
-        logger.info(f"Cash at bank established with {len(self.deals)} deals.")
-
-    def accrued_interest_time_step(self, index, row):
-        accrued_interest = row['Accrued_Interest']
-        accrued_interest_generated = (row['Principal'] * row['Interest_Rate']) / 360
+    def accrued_interest_time_step(self, df, index, row) -> pd.DataFrame:
+        """ Handles accrued interest component of time stepping """
+        accrued_interest = row['accrued_interest']
+        accrued_interest_generated = (row['principal'] * row['interest_rate']) / 360
         new_accrued_interest = accrued_interest + accrued_interest_generated
-        self.deals.loc[index, 'Accrued_Interest'] = new_accrued_interest
+        df.loc[index, 'accrued_interest'] = new_accrued_interest
+        return df
 
-    def time_step(self):
-        for index, row in self.deals.iterrows():
-            self.accrued_interest_time_step(index, row)
-
-    def bs_values(self):
-        principal = self.deals['Principal'].sum()
-        accrued_interest = self.deals['Accrued_Interest'].sum()
-        bsv = principal + accrued_interest
-        return bsv
+    def time_step(self) -> None:
+        "Advances the data by 1 day"
+        sql = "SELECT * FROM CashAtBank"
+        conn = sqlite3.connect("database/data/database.db")
+        df_org = pd.read_sql(sql,conn)
+        
+        #Accrued Interest
+        # TODO: Handle interest payment
+        for index, row in df_org.iterrows():
+            df_new = self.accrued_interest_time_step(df_org, index, row)
+        print(df_new)
+        
+        # TODO: Post changes to ledger
