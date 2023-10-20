@@ -20,7 +20,7 @@ def create_coa() -> None:
     Function to create the chart of accounts from the json file. This should only happen
     on the initial creation of the database.
     """
-    with open("chart_of_accounts.json", "r") as f:
+    with open("database\chart_of_accounts.json", "r") as f:
         coa = json.load(f)
 
     engine = create_engine(DB_URL)
@@ -34,8 +34,7 @@ def create_coa() -> None:
         except IntegrityError as e:
             logger.error(f"Error creating chart of accounts: {e}")
 
-
-if __name__ == "__main__":
+def create_db():
     models = [BalanceSheet, Ledger, ChartOfAccounts]
 
     # Create path if it doesn't exist:
@@ -45,5 +44,4 @@ if __name__ == "__main__":
     engine = create_engine(DB_URL)
     SQLModel.metadata.drop_all(engine)
     SQLModel.metadata.create_all(engine)
-
-    create_coa()
+    logger.info("Database tables from models.py created")

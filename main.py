@@ -1,56 +1,32 @@
-from tkinter import *
+from pathlib import Path
+import logging
+from utils.logging import log_config
 
 from gamestate import GameState
 from settings import Settings
+import testing_output
+
+from database.create import DB_PATH
+
+logger = logging.getLogger(__name__)
+logger = log_config(logger)
+
+logger.info("main.py started")
 
 settings = Settings()
+logger.info("Settings Class Initialised")
 game = GameState()
+logger.info("Game State Initialised")
 
-# game.bank.establish_bank(settings)
+if DB_PATH.exists():
+    DB_PATH.unlink()
+    logger.info("Database already exists, Deleting")
+import database.create
+database.create.create_db()
+database.create.create_coa()
 
-# print(game.bank.ledger.ledger.head())
-# print(game.bank.balance_sheet.balance_sheet)
-# print(game.bank.cash_at_bank.deals)
-# print(game.bank.capital.deals)
+game.bank.establish_bank(settings)
+logger.info("Bank Established")
 
-# root window
-root = Tk()
-root.geometry('1920x1080')
-root.title('BankTycoon')
-
-# menubar
-menubar = Menu(root)
-root.config(menu=menubar)
-
-# create file menu
-file_menu = Menu(menubar, tearoff=0)
-
-
-# function to display bank stats
-def bank_info():
-    data = game.bank.balance_sheet.balance_sheet
-    n_rows = data.shape[0]
-    n_cols = data.shape[1]
-    col_names = data.columns
-
-    for j, col in enumerate(col_names):
-        text = Text(root, width=16, height=1, bg="#9BC2E6")
-        text.grid(row=0, column=j)
-        text.insert(INSERT, col)
-
-    for i in range(n_rows):
-        for j in range(n_cols):
-            text = Text(root, width=16, height=1)
-            text.grid(row=i + 1, column=j)
-            text.insert(INSERT, data.loc[i][j])
-
-
-# add menu options
-file_menu.add_command(label='Establish Bank', command=lambda: game.bank.establish_bank(settings))
-file_menu.add_command(label='Bank Stats', command=lambda: bank_info())
-file_menu.add_command(label='Exit', command=root.destroy)
-
-# add menue to menubar
-menubar.add_cascade(label="File", menu=file_menu)
-
-root.mainloop()
+testing_output.balance_sheet_summary()
+testing_output.ledger_summary()
