@@ -1,4 +1,11 @@
+import logging
+
 import pandas as pd
+
+from utils.logging import log_config
+
+logger = logging.getLogger(__name__)
+logger = log_config(logger)
 
 
 class Capital:
@@ -12,3 +19,5 @@ class Capital:
             self.deals = pd.DataFrame(data=cap)
         else:
             self.deals = deals
+
+        logger.info(f"Capital established with {len(self.deals)} deals.")

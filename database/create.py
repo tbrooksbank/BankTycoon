@@ -1,12 +1,18 @@
 import json
+import logging
 from pathlib import Path
 
+from sqlalchemy.exc import IntegrityError
 from sqlmodel import create_engine, Session, SQLModel
 
 from database.models import BalanceSheet, ChartOfAccounts, Ledger
+from utils.logging import log_config
 
 DB_PATH = Path(__file__).parent / "data" / "database.db"
 DB_URL = f"sqlite:///{DB_PATH}"
+
+logger = logging.getLogger(__name__)
+logger = log_config(logger)
 
 
 def create_coa() -> None:
@@ -21,7 +27,12 @@ def create_coa() -> None:
     with Session(engine) as session:
         for item in coa:
             session.add(ChartOfAccounts(**item))
-        session.commit()
+
+        try:
+            session.commit()
+            logger.info("Chart of accounts created")
+        except IntegrityError as e:
+            logger.error(f"Error creating chart of accounts: {e}")
 
 
 if __name__ == "__main__":
