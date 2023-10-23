@@ -3,6 +3,7 @@ import pandas as pd
 import sqlite3
 import datetime as dt
 from sqlmodel import create_engine, Session
+from sqlalchemy.exc import IntegrityError
 
 from database.create import DB_URL 
 from database.models import Ledger, CashAtBank
