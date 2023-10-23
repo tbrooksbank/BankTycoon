@@ -16,5 +16,17 @@
     "bs_category": "Equity",
     "bs_class": "Share Premium",
     "bs_account": "Share Premium"
+  },
+  {
+    "sort_order": 4,
+    "bs_category": "Equity",
+    "bs_class": "Income",
+    "bs_account": "BofE Interest Income"
+  },
+  {
+    "sort_order": 5,
+    "bs_category": "Assets",
+    "bs_class": "Interest Receivables",
+    "bs_account": "BofE Interest Receivable"
   }
 ]

@@ -1,6 +1,7 @@
 from pathlib import Path
 import logging
 from utils.logging import log_config
+import datetime as dt
 
 from gamestate import GameState
 from settings import Settings
@@ -32,6 +33,10 @@ testing_output.balance_sheet_summary()
 testing_output.ledger_summary()
 testing_output.cash_at_bank_summary()
 
+date = dt.date(2020, 1, 1)
 for _ in range(5):
-    game.bank.cash_at_bank.time_step()
+    date += dt.timedelta(days=1)
+    game.bank.cash_at_bank.time_step(date)
+    testing_output.balance_sheet_summary()
+    testing_output.ledger_summary()
     testing_output.cash_at_bank_summary()
