@@ -23,20 +23,16 @@ class cash_at_bank:
         return new_accrued_interest
 
     def time_step(self) -> None:
-        "Advances the data by 1 day"
-        sql = "SELECT * FROM CashAtBank"
-        conn = sqlite3.connect("database/data/database.db")
-        df = pd.read_sql(sql,conn)
+        """ Advances the data by 1 day, post's changes to ledger """
+        engine = create_engine(DB_URL)
 
-        delete = 'DELETE FROM CashAtBank'
-        cur = conn.cursor()
-        cur.execute(delete)
-        conn.commit()
+        sql = "SELECT * FROM CashAtBank"
+        df = pd.read_sql(sql,engine)
         
-        #Accrued Interest
+        # Accrued Interest
         # TODO: Handle interest payment
         df['accrued_interest'] = df.apply(self.accrued_interest_time_step, axis=1)
 
+        # Export Changes
         # TODO: Post changes to ledger
-        engine = create_engine(DB_URL)
-        df.to_sql("CashAtBank", engine, if_exists="append", index=False)
+        df.to_sql("cashatbank", engine, if_exists="replace", index=False)
