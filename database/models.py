@@ -21,3 +21,9 @@ class ChartOfAccounts(SQLModel, table=True):
     bs_class: str = Field(index=True)
     bs_account: str = Field(primary_key=True)
     sort_order: int
+
+class CashAtBank(SQLModel, table=True):
+    counterparty: str = Field(primary_key=True, unique=True)
+    principal: float
+    accrued_interest: float
+    interest_rate: float
